@@ -1,5 +1,9 @@
+// Aliases or Custom Types 
+type Combinable = number | string;
+type ConversionDescriptor = 'as-number' | 'as-string'
+
 // Unions & Literal Types
-const combine = (input1: number | string, input2: number | string, resultConversion: 'as-number' | 'as-string') => {
+const combine = (input1: Combinable, input2: Combinable, resultConversion: ConversionDescriptor) => {
     let result;
     if (typeof input1 === 'number' && typeof input2 === 'number' || resultConversion === 'as-number') {
         result = +input1 + +input2
