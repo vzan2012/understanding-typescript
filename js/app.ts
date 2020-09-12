@@ -1,69 +1,10 @@
-/**
- * Object Types
- */
-// const person = {
-//     name: 'Delta',
-//     age: 36
-// }
-
-// const person: object = {
-//     name: 'Delta',
-//     age: 36
-// }
-
-// const person: { name: string; age: number } = {
-//     name: 'Delta',
-//     age: 36
-// }
-
-
-/**
- * Tuples
- */
-// const person: {
-//     name: string;
-//     age: number;
-//     hobbies: string[];
-//     role: [number, string]
-// } = {
-//     name: 'Delta',
-//     age: 36,
-//     hobbies: ['Exploring', 'Reading', 'Walking'],
-//     role: [2, 'author'] //Tuples
-// }
-
-// person.role.push('admin');
-// person.role[1] = 100
-
-// person.role = [0, 'One']
-
-/**
- * ENums
- */
-
-enum Role { ADMIN = 'ADMIN', READ_ONLY = 200, AUTHOR = 300 };
-
-const person = {
-    name: 'Delta',
-    age: 36,
-    hobbies: ['Exploring', 'Reading', 'Walking'],
-    role: Role.ADMIN
+// Unions
+const combine = (input1: number | string, input2: number | string) => {
+    if (typeof input1 === 'number' && typeof input2 === 'number') { return input1 + input2 } else { return input1.toString() + input2.toString() }
 }
 
-/**
- * Arrays
- */
-let favoriteActivites: string[];
-favoriteActivites = ['Cooking']
+const combinedAges = combine(30, 30)
+console.log(combinedAges)
 
-console.log(person)
-console.log(person.name);
-
-for (const hobby of person.hobbies) {
-    console.log(hobby)
-}
-
-if (person.role === Role.ADMIN) {
-    console.log('is admin')
-}
-
+const combinedNames = combine('100', '100')
+console.log(combinedNames)
