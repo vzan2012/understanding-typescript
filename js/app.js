@@ -1,3 +1,5 @@
+"use strict";
+// Unknown & Never Types 
 var userInput;
 var userName;
 userInput = 10;
