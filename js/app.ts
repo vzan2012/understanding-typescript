@@ -1,16 +1,5 @@
-// Unknown & Never Types 
-let userInput: unknown;
-let userName: string;
+const button = document.querySelector('button')!;
 
-userInput = 10;
-userInput = 'vzan2012'
-
-if (typeof userInput === 'string')
-    userName = userInput
-
-const generateError = (message: string, code: number) => {
-    throw { message, errorCode: code }
-    // while(true){}
-}
-
-generateError('Error Occured', 500)
+button.addEventListener('click', () => {
+    console.log('clicked')
+})
