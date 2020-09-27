@@ -1,14 +1,23 @@
 // Classes
 class Department {
+
+    // Static property
+    static fiscalYear = 2021;
+
     // Access Modifiers
     // private readonly id: string;
     // public name: string;
-    private employees: string[] = [];
+    protected employees: string[] = [];
 
     // Shorthand Initialization 
     constructor(private readonly id: string, public name: string) {
         // this.id = id;
         // this.name = name;
+    }
+
+    //Static
+    static createEmployee(name: string) {
+        return { name }
     }
 
     describe(this: Department) {
@@ -34,18 +43,42 @@ class ITDepartment extends Department {
 }
 
 class AccountingDepartment extends Department {
+    private lastReport: string;
+
+    // Getter method 
+    get mostRecentReport() {
+        if (this.lastReport) return this.lastReport;
+        throw new Error('No Report Found...')
+    }
+
+    // Setter method 
+    set mostRecentReport(value: string) {
+        if (!value) throw new Error('Please pass in a valid value !!!');
+        this.addReport(value)
+    }
+
     constructor(id: string, private reports: string[]) {
         super(id, 'Accounting');
+        this.lastReport = reports[0]
+    }
+
+    addEmployee(name: string) {
+        if (name === 'vzan2012') return;
+        this.employees.push(name)
     }
 
     addReport(text: string) {
-        this.reports.push(text)
+        this.reports.push(text);
+        this.lastReport = text;
     }
 
     getReports() {
         console.log(this.reports)
     }
 }
+
+const employee1 = Department.createEmployee('User3');
+console.log(employee1, Department.fiscalYear)
 
 const it = new ITDepartment('D1', ['vzan2012']);
 it.describe();
@@ -57,9 +90,21 @@ it.printEmployeeInformation()
 console.log(it);
 
 const accounting = new AccountingDepartment('D2', []);
+
+
 accounting.addReport('Report 1')
 accounting.addReport('Report 2')
+
+// Access the Setter Method 
+accounting.mostRecentReport = 'Report 3';
 accounting.getReports();
+
+// Access the Getter Method 
+console.log(accounting.mostRecentReport)
+
+accounting.addEmployee('vzan2012')
+accounting.addEmployee('aUser')
+accounting.printEmployeeInformation()
 
 // const accountingCopy = { name: 'Testing', describe: department.describe }
 // accountingCopy.describe()
