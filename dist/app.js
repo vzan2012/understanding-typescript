@@ -29,9 +29,6 @@ var Department = /** @class */ (function () {
     Department.createEmployee = function (name) {
         return { name: name };
     };
-    Department.prototype.describe = function () {
-        console.log("Department: (" + this.id + "): " + this.name);
-    };
     Department.prototype.addEmployee = function (employee) {
         this.employees.push(employee);
     };
@@ -50,6 +47,9 @@ var ITDepartment = /** @class */ (function (_super) {
         _this.admins = admins;
         return _this;
     }
+    ITDepartment.prototype.describe = function () {
+        console.log("IT Department - ID: " + this.id);
+    };
     return ITDepartment;
 }(Department));
 var AccountingDepartment = /** @class */ (function (_super) {
@@ -76,6 +76,15 @@ var AccountingDepartment = /** @class */ (function (_super) {
         enumerable: false,
         configurable: true
     });
+    AccountingDepartment.getInstance = function () {
+        if (AccountingDepartment.instance)
+            return this.instance;
+        this.instance = new AccountingDepartment('D2', []);
+        return this.instance;
+    };
+    AccountingDepartment.prototype.describe = function () {
+        console.log("Accounting Department Id: " + this.id);
+    };
     AccountingDepartment.prototype.addEmployee = function (name) {
         if (name === 'vzan2012')
             return;
@@ -98,7 +107,10 @@ it.addEmployee('Sai Shravan');
 it.addEmployee('vzan2012');
 it.printEmployeeInformation();
 console.log(it);
-var accounting = new AccountingDepartment('D2', []);
+// const accounting = new AccountingDepartment('D2', []);
+var accounting = AccountingDepartment.getInstance();
+var accounting1 = AccountingDepartment.getInstance();
+console.log(accounting, accounting1);
 accounting.addReport('Report 1');
 accounting.addReport('Report 2');
 // Access the Setter Method 
@@ -109,6 +121,7 @@ console.log(accounting.mostRecentReport);
 accounting.addEmployee('vzan2012');
 accounting.addEmployee('aUser');
 accounting.printEmployeeInformation();
+accounting.describe();
 // const accountingCopy = { name: 'Testing', describe: department.describe }
 // accountingCopy.describe()
 //# sourceMappingURL=app.js.map

@@ -1,5 +1,5 @@
 // Classes
-class Department {
+abstract class Department {
 
     // Static property
     static fiscalYear = 2021;
@@ -10,7 +10,7 @@ class Department {
     protected employees: string[] = [];
 
     // Shorthand Initialization 
-    constructor(private readonly id: string, public name: string) {
+    constructor(protected readonly id: string, public name: string) {
         // this.id = id;
         // this.name = name;
     }
@@ -20,9 +20,12 @@ class Department {
         return { name }
     }
 
-    describe(this: Department) {
-        console.log(`Department: (${this.id}): ${this.name}`)
-    }
+    // describe(this: Department) {
+    //     console.log(`Department: (${this.id}): ${this.name}`)
+    // }
+
+    abstract describe(this: Department): void
+
 
     addEmployee(employee: string) {
         this.employees.push(employee)
@@ -40,10 +43,16 @@ class ITDepartment extends Department {
         super(id, 'IT')
         this.admins = admins
     }
+
+    describe() {
+        console.log(`IT Department - ID: ${this.id}`)
+    }
+
 }
 
 class AccountingDepartment extends Department {
     private lastReport: string;
+    private static instance: AccountingDepartment;
 
     // Getter method 
     get mostRecentReport() {
@@ -57,9 +66,19 @@ class AccountingDepartment extends Department {
         this.addReport(value)
     }
 
-    constructor(id: string, private reports: string[]) {
+    private constructor(id: string, private reports: string[]) {
         super(id, 'Accounting');
         this.lastReport = reports[0]
+    }
+
+    static getInstance() {
+        if (AccountingDepartment.instance) return this.instance;
+        this.instance = new AccountingDepartment('D2', []);
+        return this.instance;
+    }
+
+    describe() {
+        console.log(`Accounting Department Id: ${this.id}`)
     }
 
     addEmployee(name: string) {
@@ -89,8 +108,11 @@ it.addEmployee('vzan2012');
 it.printEmployeeInformation()
 console.log(it);
 
-const accounting = new AccountingDepartment('D2', []);
+// const accounting = new AccountingDepartment('D2', []);
+const accounting = AccountingDepartment.getInstance();
+const accounting1 = AccountingDepartment.getInstance();
 
+console.log(accounting, accounting1)
 
 accounting.addReport('Report 1')
 accounting.addReport('Report 2')
@@ -105,6 +127,7 @@ console.log(accounting.mostRecentReport)
 accounting.addEmployee('vzan2012')
 accounting.addEmployee('aUser')
 accounting.printEmployeeInformation()
+accounting.describe();
 
 // const accountingCopy = { name: 'Testing', describe: department.describe }
 // accountingCopy.describe()
