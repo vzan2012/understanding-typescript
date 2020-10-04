@@ -3,13 +3,21 @@
 // type Person = {
 //     name: string;
 //     age: number;
+var add;
+add = function (a, b) { return a + b; };
 var Person = /** @class */ (function () {
     function Person(n) {
         this.age = 30;
-        this.name = n;
+        if (n)
+            this.name = n;
     }
     Person.prototype.greet = function (phrase) {
-        console.log(phrase + " " + this.name);
+        if (this.name) {
+            console.log(phrase + " " + this.name);
+        }
+        else {
+            console.log("Hi");
+        }
     };
     return Person;
 }());
@@ -22,7 +30,7 @@ var Person = /** @class */ (function () {
 //     }
 // }
 var user1;
-user1 = new Person('vzan2012');
+user1 = new Person('Sai Shravan');
 user1.greet('Welcome');
 console.log(user1);
 //# sourceMappingURL=app.js.map
