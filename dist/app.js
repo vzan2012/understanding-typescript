@@ -1,36 +1,79 @@
 "use strict";
-// By Types
-// type Person = {
+// Using Interfaces
+// interface Admin {
 //     name: string;
-//     age: number;
-var add;
-add = function (a, b) { return a + b; };
-var Person = /** @class */ (function () {
-    function Person(n) {
-        this.age = 30;
-        if (n)
-            this.name = n;
-    }
-    Person.prototype.greet = function (phrase) {
-        if (this.name) {
-            console.log(phrase + " " + this.name);
-        }
-        else {
-            console.log("Hi");
-        }
-    };
-    return Person;
-}());
-// let user1: Greetable;
-// user1 = {
-//     name: 'vzan2012',
-//     age: 100,
-//     greet(phrase: string) {
-//         console.log(`${phrase} ${this.name}`)
-//     }
+//     privileges: string[]
 // }
-var user1;
-user1 = new Person('Sai Shravan');
-user1.greet('Welcome');
-console.log(user1);
+// interface Employee {
+//     name: string;
+//     startedDate: Date
+// }
+// interface ElevatedEmployee extends Employee, Admin { }
+var e1 = {
+    name: 'vzan2012',
+    privileges: ['create-server'],
+    startedDate: new Date()
+};
+var e2 = 9;
+var add = function (a, b) {
+    if (typeof (a) === 'string' || typeof (b) == 'string')
+        return a.toString() + b.toString();
+    return a + b;
+};
+var printEmployeeInformation = function (emp) {
+    console.log("Name: " + emp.name);
+    // Check the property is available 
+    if ('privileges' in emp)
+        console.log("Privileges: " + emp.privileges);
+    // Check the property is available 
+    if ('startedDate' in emp)
+        console.log("Started Date: " + emp.startedDate);
+};
+printEmployeeInformation(e1);
+printEmployeeInformation({ name: 'Sai Shravan', startedDate: new Date() });
+var Car = /** @class */ (function () {
+    function Car() {
+    }
+    Car.prototype.drive = function () {
+        console.log("Driving ...");
+    };
+    return Car;
+}());
+var Truck = /** @class */ (function () {
+    function Truck() {
+    }
+    Truck.prototype.drive = function () {
+        console.log("Driving Truck");
+    };
+    Truck.prototype.loadCargo = function (amount) {
+        console.log("Loading Cargo ... " + amount);
+    };
+    return Truck;
+}());
+var v1 = new Car();
+var v2 = new Truck();
+function useVehicle(vehicle) {
+    vehicle.drive();
+    // if ('loadCargo' in vehicle)
+    //     vehicle.loadCargo(1000)
+    if (vehicle instanceof Truck)
+        vehicle.loadCargo(1000);
+}
+useVehicle(v1);
+useVehicle(v2);
+function moveAnimal(animal) {
+    var speed;
+    switch (animal.type) {
+        case 'bird':
+            speed = animal.flyingSpeed;
+            break;
+        case 'horse':
+            speed = animal.runningSpeed;
+    }
+    console.log("Moving at Speed - " + animal.type + ": " + speed);
+    // if ('flyingSpeed' in animal)
+    //     console.log(`Moving speed: ${animal.flyingSpeed}`)
+}
+moveAnimal({ type: 'bird', flyingSpeed: 600 });
+moveAnimal({ type: 'horse', runningSpeed: 600 });
 //# sourceMappingURL=app.js.map

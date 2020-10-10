@@ -1,67 +1,122 @@
-// By Types
-// type Person = {
-//     name: string;
-//     age: number;
+// Intersection Types 
+type Admin = {
+    name: string;
+    privileges: string[]
+}
 
-//     greet(phrase: string): void;
+type Employee = {
+    name: string;
+    startedDate: Date
+}
+
+type ElevatedEmployee = Admin & Employee
+
+// Using Interfaces
+// interface Admin {
+//     name: string;
+//     privileges: string[]
 // }
 
-// Interfaces
-// interface Person {
+// interface Employee {
 //     name: string;
-//     age: number;
-
-//     greet(phrase: string): void;
+//     startedDate: Date
 // }
 
-// type AddFn = (a: number, b: number) => number
+// interface ElevatedEmployee extends Employee, Admin { }
 
-interface AddFn {
-    //  Anonymous function
-    (a: number, b: number): number
+
+const e1: ElevatedEmployee = {
+    name: 'vzan2012',
+    privileges: ['create-server'],
+    startedDate: new Date()
 }
 
-let add: AddFn;
+type Combinable = string | number;
+type Numeric = number | boolean;
 
-add = (a: number, b: number) => a + b
+type Universal = Combinable & Numeric
 
-// Interface 
-interface Named {
-    readonly name?: string;
-    outputName?: string;
+const e2: Universal = 9
+
+const add = (a: Combinable, b: Combinable) => {
+    if (typeof (a) === 'string' || typeof (b) == 'string')
+        return a.toString() + b.toString();
+    return a + b;
 }
 
-interface Greetable extends Named {
-    greet(phrase: string): void;
+type UnknownEmployee = Admin | Employee;
+
+const printEmployeeInformation = (emp: UnknownEmployee) => {
+    console.log(`Name: ${emp.name}`);
+    // Check the property is available 
+    if ('privileges' in emp)
+        console.log(`Privileges: ${emp.privileges}`)
+    // Check the property is available 
+    if ('startedDate' in emp)
+        console.log(`Started Date: ${emp.startedDate}`)
 }
 
-class Person implements Greetable {
-    name?: string;
-    age = 30
+printEmployeeInformation(e1)
+printEmployeeInformation({ name: 'Sai Shravan', startedDate: new Date() })
 
-    constructor(n?: string) { if (n) this.name = n }
-
-    greet(phrase: string) {
-        if (this.name) {
-            console.log(`${phrase} ${this.name}`)
-        } else {
-            console.log(`Hi`)
-        }
+class Car {
+    drive() {
+        console.log(`Driving ...`)
     }
 }
 
-// let user1: Greetable;
+class Truck {
+    drive() {
+        console.log(`Driving Truck`)
+    }
 
-// user1 = {
-//     name: 'vzan2012',
-//     age: 100,
+    loadCargo(amount: number) {
+        console.log(`Loading Cargo ... ${amount}`)
+    }
+}
 
-//     greet(phrase: string) {
-//         console.log(`${phrase} ${this.name}`)
-//     }
-// }
-let user1: Greetable;
-user1 = new Person('Sai Shravan')
+type Vehicle = Car | Truck;
 
-user1.greet('Welcome')
-console.log(user1)
+const v1 = new Car();
+const v2 = new Truck();
+
+function useVehicle(vehicle: Vehicle) {
+    vehicle.drive()
+    // if ('loadCargo' in vehicle)
+    //     vehicle.loadCargo(1000)
+    if (vehicle instanceof Truck)
+        vehicle.loadCargo(1000)
+}
+
+useVehicle(v1);
+useVehicle(v2);
+
+// Discriminating Unions 
+interface Bird {
+    type: 'bird'
+    flyingSpeed: number
+}
+
+interface Horse {
+    type: 'horse'
+    runningSpeed: number
+}
+
+type Animal = Bird | Horse;
+
+function moveAnimal(animal: Animal) {
+    let speed;
+    switch (animal.type) {
+        case 'bird':
+            speed = animal.flyingSpeed
+            break
+        case 'horse':
+            speed = animal.runningSpeed
+    }
+    console.log(`Moving at Speed - ${animal.type}: ${speed}`)
+    // if ('flyingSpeed' in animal)
+    //     console.log(`Moving speed: ${animal.flyingSpeed}`)
+}
+
+moveAnimal({ type: 'bird', flyingSpeed: 600 })
+moveAnimal({ type: 'horse', runningSpeed: 600 })
