@@ -1,4 +1,5 @@
 "use strict";
+var _a;
 // Using Interfaces
 // interface Admin {
 //     name: string;
@@ -96,4 +97,19 @@ var resultSum = addSum(10, 20);
 console.log(resultSum);
 // const resultSum = addSum('Ten', ' Twenty')
 // console.log(resultSum.split(' '))
+// Optional Chaining - Example
+var fetchedUser = {
+    id: '786',
+    name: 'vzan2012',
+    job: { title: 'Driver', description: 'My own car' }
+};
+// console.log(fetchedUser.job.title)
+// // JavaScript - Checking the object is available or not 
+// console.log(fetchedUser.job && fetchedUser.job.title)
+// Using Typescript - Optional Chaining
+console.log((_a = fetchedUser === null || fetchedUser === void 0 ? void 0 : fetchedUser.job) === null || _a === void 0 ? void 0 : _a.title);
+// Nullish Coalescing
+var userInput = undefined;
+var storedData = userInput !== null && userInput !== void 0 ? userInput : 'DEFAULT';
+console.log(storedData);
 //# sourceMappingURL=app.js.map

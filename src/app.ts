@@ -159,3 +159,23 @@ const resultSum = addSum(10, 20)
 console.log(resultSum)
 // const resultSum = addSum('Ten', ' Twenty')
 // console.log(resultSum.split(' '))
+
+// Optional Chaining - Example
+const fetchedUser = {
+    id: '786',
+    name: 'vzan2012',
+    job: { title: 'Driver', description: 'My own car' }
+}
+
+// console.log(fetchedUser.job.title)
+// // JavaScript - Checking the object is available or not 
+// console.log(fetchedUser.job && fetchedUser.job.title)
+// Using Typescript - Optional Chaining
+console.log(fetchedUser?.job?.title)
+
+
+// Nullish Coalescing
+const userInput = undefined
+const storedData = userInput ?? 'DEFAULT'
+
+console.log(storedData)
