@@ -76,4 +76,24 @@ function moveAnimal(animal) {
 }
 moveAnimal({ type: 'bird', flyingSpeed: 600 });
 moveAnimal({ type: 'horse', runningSpeed: 600 });
+// TypeCasting Examples
+// const paragraph = document.querySelector('#message-output')
+// Method 1:
+// const userInputElement = <HTMLInputElement>document.querySelector('#user-input')!
+// Method 2:
+var userInputElement = document.querySelector('#user-input');
+userInputElement.value = 'Hello !!!';
+var errorBox = {
+    email: 'Not a Valid Email',
+    username: 'Must start with a lowercase character !!!'
+};
+function addSum(a, b) {
+    if (typeof (a) === 'string' || typeof (b) == 'string')
+        return a.toString() + b.toString();
+    return a + b;
+}
+var resultSum = addSum(10, 20);
+console.log(resultSum);
+// const resultSum = addSum('Ten', ' Twenty')
+// console.log(resultSum.split(' '))
 //# sourceMappingURL=app.js.map

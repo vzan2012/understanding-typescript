@@ -120,3 +120,42 @@ function moveAnimal(animal: Animal) {
 
 moveAnimal({ type: 'bird', flyingSpeed: 600 })
 moveAnimal({ type: 'horse', runningSpeed: 600 })
+
+// TypeCasting Examples
+// const paragraph = document.querySelector('#message-output')
+// Method 1:
+// const userInputElement = <HTMLInputElement>document.querySelector('#user-input')!
+
+// Method 2:
+const userInputElement = document.querySelector('#user-input')! as HTMLInputElement
+userInputElement.value = 'Hello !!!'
+
+// Other Method
+// const userInputElement = document.querySelector('#user-input')!
+// if (userInputElement)
+//     (userInputElement as HTMLInputElement).value = 'Hello !!!'
+
+
+// Index Types 
+interface ErrorContainer {
+    [prop: string]: string
+}
+
+const errorBox: ErrorContainer = {
+    email: 'Not a Valid Email',
+    username: 'Must start with a lowercase character !!!'
+}
+
+// Function Overloading
+function addSum(a: number, b: number): number
+function addSum(a: string, b: string): string
+function addSum(a: Combinable, b: Combinable) {
+    if (typeof (a) === 'string' || typeof (b) == 'string')
+        return a.toString() + b.toString();
+    return a + b;
+}
+
+const resultSum = addSum(10, 20)
+console.log(resultSum)
+// const resultSum = addSum('Ten', ' Twenty')
+// console.log(resultSum.split(' '))
