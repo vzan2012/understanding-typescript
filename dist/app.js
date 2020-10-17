@@ -1,115 +1,48 @@
 "use strict";
-var _a;
-// Using Interfaces
-// interface Admin {
-//     name: string;
-//     privileges: string[]
-// }
-// interface Employee {
-//     name: string;
-//     startedDate: Date
-// }
-// interface ElevatedEmployee extends Employee, Admin { }
-var e1 = {
-    name: 'vzan2012',
-    privileges: ['create-server'],
-    startedDate: new Date()
-};
-var e2 = 9;
-var add = function (a, b) {
-    if (typeof (a) === 'string' || typeof (b) == 'string')
-        return a.toString() + b.toString();
-    return a + b;
-};
-var printEmployeeInformation = function (emp) {
-    console.log("Name: " + emp.name);
-    // Check the property is available 
-    if ('privileges' in emp)
-        console.log("Privileges: " + emp.privileges);
-    // Check the property is available 
-    if ('startedDate' in emp)
-        console.log("Started Date: " + emp.startedDate);
-};
-printEmployeeInformation(e1);
-printEmployeeInformation({ name: 'Sai Shravan', startedDate: new Date() });
-var Car = /** @class */ (function () {
-    function Car() {
-    }
-    Car.prototype.drive = function () {
-        console.log("Driving ...");
-    };
-    return Car;
-}());
-var Truck = /** @class */ (function () {
-    function Truck() {
-    }
-    Truck.prototype.drive = function () {
-        console.log("Driving Truck");
-    };
-    Truck.prototype.loadCargo = function (amount) {
-        console.log("Loading Cargo ... " + amount);
-    };
-    return Truck;
-}());
-var v1 = new Car();
-var v2 = new Truck();
-function useVehicle(vehicle) {
-    vehicle.drive();
-    // if ('loadCargo' in vehicle)
-    //     vehicle.loadCargo(1000)
-    if (vehicle instanceof Truck)
-        vehicle.loadCargo(1000);
+// Generics
+// const names: Array<string> = ['']  // string[]
+// const promise: Promise<string> = new Promise((resolve, reject) => {
+//     try {
+//         setTimeout(() => {
+//             resolve('Done !!!')
+//         }, 2000)
+//     }
+//     catch (e) {
+//         reject(e)
+//     }
+// })
+// promise.then((data) => {
+//     console.log(data)
+// })
+// Creating Generic functions 
+// Merging of two objects
+// Adding the constraints
+function merge(objA, objB) {
+    return Object.assign(objA, objB);
 }
-useVehicle(v1);
-useVehicle(v2);
-function moveAnimal(animal) {
-    var speed;
-    switch (animal.type) {
-        case 'bird':
-            speed = animal.flyingSpeed;
-            break;
-        case 'horse':
-            speed = animal.runningSpeed;
+// const mergedObj = merge({ name: 'vzan2012', hobbies: ['Coding'] }, { age: 100 })
+const mergedObj = merge({ name: 'vzan2012', hobbies: ['Coding'] }, { age: 30 });
+console.log(mergedObj);
+console.log(mergedObj.name);
+console.log(mergedObj.hobbies);
+console.log(mergedObj.age);
+// Another Generic function 
+function countAndDescribe(element) {
+    let describeTxt = 'No Value !!!';
+    if (element.length === 1) {
+        describeTxt = 'Has 1 element';
     }
-    console.log("Moving at Speed - " + animal.type + ": " + speed);
-    // if ('flyingSpeed' in animal)
-    //     console.log(`Moving speed: ${animal.flyingSpeed}`)
+    else if (element.length > 1) {
+        describeTxt = `Has ${element.length} elements`;
+    }
+    return [element, describeTxt];
 }
-moveAnimal({ type: 'bird', flyingSpeed: 600 });
-moveAnimal({ type: 'horse', runningSpeed: 600 });
-// TypeCasting Examples
-// const paragraph = document.querySelector('#message-output')
-// Method 1:
-// const userInputElement = <HTMLInputElement>document.querySelector('#user-input')!
-// Method 2:
-var userInputElement = document.querySelector('#user-input');
-userInputElement.value = 'Hello !!!';
-var errorBox = {
-    email: 'Not a Valid Email',
-    username: 'Must start with a lowercase character !!!'
-};
-function addSum(a, b) {
-    if (typeof (a) === 'string' || typeof (b) == 'string')
-        return a.toString() + b.toString();
-    return a + b;
+console.log(countAndDescribe('Hello Sai'));
+console.log(countAndDescribe(['Reading', 'Coding']));
+console.log(countAndDescribe([]));
+// keyOf - Constraint 
+function extractAndConvert(obj, key) {
+    return `Value of ${obj[key]}`;
 }
-var resultSum = addSum(10, 20);
-console.log(resultSum);
-// const resultSum = addSum('Ten', ' Twenty')
-// console.log(resultSum.split(' '))
-// Optional Chaining - Example
-var fetchedUser = {
-    id: '786',
-    name: 'vzan2012',
-    job: { title: 'Driver', description: 'My own car' }
-};
-// console.log(fetchedUser.job.title)
-// // JavaScript - Checking the object is available or not 
-// console.log(fetchedUser.job && fetchedUser.job.title)
-// Using Typescript - Optional Chaining
-console.log((_a = fetchedUser === null || fetchedUser === void 0 ? void 0 : fetchedUser.job) === null || _a === void 0 ? void 0 : _a.title);
-// Nullish Coalescing
-var userInput = undefined;
-var storedData = userInput !== null && userInput !== void 0 ? userInput : 'DEFAULT';
-console.log(storedData);
+console.log(extractAndConvert({ name: 'Sai' }, 'name'));
 //# sourceMappingURL=app.js.map

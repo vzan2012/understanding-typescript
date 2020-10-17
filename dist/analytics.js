@@ -1,6 +1,6 @@
 "use strict";
-var logged;
-var sendAnalytics = function (data) {
+let logged;
+let sendAnalytics = (data) => {
     logged = true;
     return console.log(data);
 };

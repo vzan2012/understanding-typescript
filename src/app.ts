@@ -1,181 +1,61 @@
-// Intersection Types 
-type Admin = {
-    name: string;
-    privileges: string[]
+// Generics
+// const names: Array<string> = ['']  // string[]
+
+// const promise: Promise<string> = new Promise((resolve, reject) => {
+//     try {
+//         setTimeout(() => {
+//             resolve('Done !!!')
+//         }, 2000)
+//     }
+//     catch (e) {
+//         reject(e)
+//     }
+// })
+
+// promise.then((data) => {
+//     console.log(data)
+// })
+
+// Creating Generic functions 
+// Merging of two objects
+// Adding the constraints
+function merge<O1 extends object, O2 extends object>(objA: O1, objB: O2) {
+    return Object.assign(objA, objB)
 }
 
-type Employee = {
-    name: string;
-    startedDate: Date
+// const mergedObj = merge({ name: 'vzan2012', hobbies: ['Coding'] }, { age: 100 })
+const mergedObj = merge({ name: 'vzan2012', hobbies: ['Coding'] }, { age: 30 })
+
+console.log(mergedObj)
+console.log(mergedObj.name)
+console.log(mergedObj.hobbies)
+console.log(mergedObj.age)
+
+interface lengthy {
+    length: number
 }
 
-type ElevatedEmployee = Admin & Employee
-
-// Using Interfaces
-// interface Admin {
-//     name: string;
-//     privileges: string[]
-// }
-
-// interface Employee {
-//     name: string;
-//     startedDate: Date
-// }
-
-// interface ElevatedEmployee extends Employee, Admin { }
-
-
-const e1: ElevatedEmployee = {
-    name: 'vzan2012',
-    privileges: ['create-server'],
-    startedDate: new Date()
-}
-
-type Combinable = string | number;
-type Numeric = number | boolean;
-
-type Universal = Combinable & Numeric
-
-const e2: Universal = 9
-
-const add = (a: Combinable, b: Combinable) => {
-    if (typeof (a) === 'string' || typeof (b) == 'string')
-        return a.toString() + b.toString();
-    return a + b;
-}
-
-type UnknownEmployee = Admin | Employee;
-
-const printEmployeeInformation = (emp: UnknownEmployee) => {
-    console.log(`Name: ${emp.name}`);
-    // Check the property is available 
-    if ('privileges' in emp)
-        console.log(`Privileges: ${emp.privileges}`)
-    // Check the property is available 
-    if ('startedDate' in emp)
-        console.log(`Started Date: ${emp.startedDate}`)
-}
-
-printEmployeeInformation(e1)
-printEmployeeInformation({ name: 'Sai Shravan', startedDate: new Date() })
-
-class Car {
-    drive() {
-        console.log(`Driving ...`)
-    }
-}
-
-class Truck {
-    drive() {
-        console.log(`Driving Truck`)
+// Another Generic function 
+function countAndDescribe<T extends lengthy>(element: T) {
+    let describeTxt = 'No Value !!!'
+    if (element.length === 1) {
+        describeTxt = 'Has 1 element'
+    } else if (element.length > 1) {
+        describeTxt = `Has ${element.length} elements`
     }
 
-    loadCargo(amount: number) {
-        console.log(`Loading Cargo ... ${amount}`)
-    }
+    return [element, describeTxt]
 }
 
-type Vehicle = Car | Truck;
+console.log(countAndDescribe('Hello Sai'))
+console.log(countAndDescribe(['Reading', 'Coding']))
+console.log(countAndDescribe([]))
 
-const v1 = new Car();
-const v2 = new Truck();
-
-function useVehicle(vehicle: Vehicle) {
-    vehicle.drive()
-    // if ('loadCargo' in vehicle)
-    //     vehicle.loadCargo(1000)
-    if (vehicle instanceof Truck)
-        vehicle.loadCargo(1000)
+// keyOf - Constraint 
+function extractAndConvert<T extends object, U extends keyof T>(obj: T, key: U) {
+    return `Value of ${obj[key]}`;
 }
 
-useVehicle(v1);
-useVehicle(v2);
-
-// Discriminating Unions 
-interface Bird {
-    type: 'bird'
-    flyingSpeed: number
-}
-
-interface Horse {
-    type: 'horse'
-    runningSpeed: number
-}
-
-type Animal = Bird | Horse;
-
-function moveAnimal(animal: Animal) {
-    let speed;
-    switch (animal.type) {
-        case 'bird':
-            speed = animal.flyingSpeed
-            break
-        case 'horse':
-            speed = animal.runningSpeed
-    }
-    console.log(`Moving at Speed - ${animal.type}: ${speed}`)
-    // if ('flyingSpeed' in animal)
-    //     console.log(`Moving speed: ${animal.flyingSpeed}`)
-}
-
-moveAnimal({ type: 'bird', flyingSpeed: 600 })
-moveAnimal({ type: 'horse', runningSpeed: 600 })
-
-// TypeCasting Examples
-// const paragraph = document.querySelector('#message-output')
-// Method 1:
-// const userInputElement = <HTMLInputElement>document.querySelector('#user-input')!
-
-// Method 2:
-const userInputElement = document.querySelector('#user-input')! as HTMLInputElement
-userInputElement.value = 'Hello !!!'
-
-// Other Method
-// const userInputElement = document.querySelector('#user-input')!
-// if (userInputElement)
-//     (userInputElement as HTMLInputElement).value = 'Hello !!!'
+console.log(extractAndConvert({ name: 'Sai' }, 'name'))
 
 
-// Index Types 
-interface ErrorContainer {
-    [prop: string]: string
-}
-
-const errorBox: ErrorContainer = {
-    email: 'Not a Valid Email',
-    username: 'Must start with a lowercase character !!!'
-}
-
-// Function Overloading
-function addSum(a: number, b: number): number
-function addSum(a: string, b: string): string
-function addSum(a: Combinable, b: Combinable) {
-    if (typeof (a) === 'string' || typeof (b) == 'string')
-        return a.toString() + b.toString();
-    return a + b;
-}
-
-const resultSum = addSum(10, 20)
-console.log(resultSum)
-// const resultSum = addSum('Ten', ' Twenty')
-// console.log(resultSum.split(' '))
-
-// Optional Chaining - Example
-const fetchedUser = {
-    id: '786',
-    name: 'vzan2012',
-    job: { title: 'Driver', description: 'My own car' }
-}
-
-// console.log(fetchedUser.job.title)
-// // JavaScript - Checking the object is available or not 
-// console.log(fetchedUser.job && fetchedUser.job.title)
-// Using Typescript - Optional Chaining
-console.log(fetchedUser?.job?.title)
-
-
-// Nullish Coalescing
-const userInput = undefined
-const storedData = userInput ?? 'DEFAULT'
-
-console.log(storedData)
