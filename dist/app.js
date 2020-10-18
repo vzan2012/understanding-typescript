@@ -45,4 +45,46 @@ function extractAndConvert(obj, key) {
     return `Value of ${obj[key]}`;
 }
 console.log(extractAndConvert({ name: 'Sai' }, 'name'));
+// Only the primitive types 
+class DataStorage {
+    constructor() {
+        this.data = [];
+    }
+    addItem(item) {
+        this.data.push(item);
+    }
+    removeItem(item) {
+        if (this.data.indexOf(item) === -1)
+            return;
+        this.data.splice(this.data.indexOf(item), 1);
+    }
+    getItem() {
+        return [...this.data];
+    }
+}
+const txtStorage = new DataStorage();
+txtStorage.addItem('vzan2012');
+txtStorage.addItem('Sai');
+txtStorage.removeItem('vzan2012');
+console.log(txtStorage.getItem());
+const numberStorage = new DataStorage();
+numberStorage.addItem(10);
+numberStorage.addItem(20);
+numberStorage.addItem(30);
+numberStorage.addItem(50);
+console.log(numberStorage.getItem());
+numberStorage.removeItem(50);
+console.log(numberStorage.getItem());
+const createCourseGoal = (title, description, date) => {
+    // Partial type 
+    let courseGoal = {};
+    courseGoal.title = title;
+    courseGoal.description = description;
+    courseGoal.completeUntil = date;
+    return courseGoal;
+};
+// Readonly type 
+const nameStore = ['vzan2012', 'Sai'];
+// nameStore.push('Star')
+console.log(nameStore);
 //# sourceMappingURL=app.js.map
