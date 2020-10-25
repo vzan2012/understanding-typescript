@@ -5,6 +5,9 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+var __param = (this && this.__param) || function (paramIndex, decorator) {
+    return function (target, key) { decorator(target, key, paramIndex); }
+};
 // Decorators
 // function Logger(constructor: Function) {
 //     console.log('Logging ...')
@@ -21,14 +24,20 @@ function Logger(logString) {
 function withTemplate(template, hookId) {
     console.log('TEMPLATE FACTORY');
     // return function (_: Function) {
-    return function (constructor) {
-        console.log('Rendering Template');
-        const hookElem = document.getElementById(hookId);
-        const username = new constructor();
-        if (hookElem) {
-            hookElem.innerHTML = template;
-            hookElem.querySelector('h1').textContent = username.name;
-        }
+    return function (originalConstructor) {
+        return class extends originalConstructor {
+            constructor(...args) {
+                super();
+                console.log('Rendering Template');
+                console.log(args);
+                const hookElem = document.getElementById(hookId);
+                // const username = new originalConstructor()
+                if (hookElem) {
+                    hookElem.innerHTML = template;
+                    hookElem.querySelector('h1').textContent = this.name;
+                }
+            }
+        };
     };
 }
 // Adding a decorator 
@@ -44,9 +53,31 @@ Person = __decorate([
 ], Person);
 const personObj = new Person();
 console.log(personObj);
+// Property Decorators 
 function Log(target, propertyName) {
     console.log('Property Decorator !!!');
     console.log(target, propertyName);
+}
+// Accessor Decorators
+function Log2(target, name, descriptor) {
+    console.log('Accessor Decorator !!!');
+    console.log(target);
+    console.log(name);
+    console.log(descriptor);
+}
+// Method Decorators 
+function Log3(target, name, descriptor) {
+    console.log('Method Decorator');
+    console.log(target);
+    console.log(name);
+    console.log(descriptor);
+}
+// Parameter Decorator 
+function Log4(target, name, position) {
+    console.log('Parameter Decorator');
+    console.log(target);
+    console.log(name);
+    console.log(position);
 }
 class Product {
     constructor(t, p) {
@@ -68,4 +99,13 @@ class Product {
 __decorate([
     Log
 ], Product.prototype, "title", void 0);
+__decorate([
+    Log2
+], Product.prototype, "price", null);
+__decorate([
+    Log3,
+    __param(0, Log4)
+], Product.prototype, "getPriceWithTax", null);
+const p1 = new Product('Book 1', 99);
+const p2 = new Product('Book 2', 108);
 //# sourceMappingURL=app.js.map
