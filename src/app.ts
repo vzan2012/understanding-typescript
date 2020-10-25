@@ -104,3 +104,33 @@ class Product {
 
 const p1 = new Product('Book 1', 99)
 const p2 = new Product('Book 2', 108)
+
+// Example for Autobind Decorator 
+function AutoBind(_target: any, _methodName: string | Symbol, descriptor: PropertyDescriptor) {
+    const originalMethod = descriptor.value;
+    const adjDescriptor = {
+        configurable: true,
+        enumeration: false,
+        get() {
+            const boundFn = originalMethod.bind(this)
+            return boundFn
+        }
+    }
+    return adjDescriptor
+}
+
+class Printer {
+    message: string = 'Working !!!';
+
+    @AutoBind
+    showMessage() {
+        console.log(this.message)
+    }
+}
+
+const p = new Printer();
+
+const button = document.querySelector('button')!
+
+// button.addEventListener('click', p.showMessage.bind(p))
+button.addEventListener('click', p.showMessage)
